@@ -1,4 +1,3 @@
-
 const video = document.getElementById('video')
 
 Promise.all([
@@ -20,10 +19,9 @@ video.addEventListener('play', () => {
     const displaySize = { width: video.width, height: video.height }
     faceapi.matchDimensions(canvas, displaySize)
     setInterval(async () => {
-        const useTinyModel = true
         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
         const resizedDetections = faceapi.resizeResults(detections, displaySize)
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-        faceapi.draw.drawDetections(canvas, resizedDetections)
+        faceapi.draw.drawDetections(canvas, resizedDetections, true, true)
     }, 100)
 })

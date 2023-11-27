@@ -1488,27 +1488,28 @@
       return DrawBox;
   }());
   var DrawEyeBox = /** @class */ (function () {
-      function DrawBox(box, options) {
-          if (options === void 0) { options = {}; }
-          this.box = new Box(box);
-          this.options = new DrawBoxOptions(options);
-      }
-      DrawBox.prototype.draw = function (canvasArg) {
-          var ctx = getContext2dOrThrow(canvasArg);
-          var _a = this.options, boxColor = _a.boxColor, lineWidth = _a.lineWidth;
-          var _b = this.box, x = _b.x + 25, y = _b.y + 25, width = _b.width - 50, height = 0.5 * _b.height - 50;
-          ctx.strokeStyle = boxColor;
-          ctx.lineWidth = lineWidth;
-          ctx.strokeRect(x, y, width, height);
-          var label = this.options.label;
-          if (label) {
-              new DrawTextField([label], { x: x - (lineWidth / 2), y: y }, this.options.drawLabelOptions).draw(canvasArg);
-          }
-      };
-      return DrawBox;
-  }());
+    function DrawBox(box, options) {
+        if (options === void 0) { options = {}; }
+        this.box = new Box(box);
+        this.options = new DrawBoxOptions(options);
+    }
+    DrawBox.prototype.draw = function (canvasArg) {
+        var ctx = getContext2dOrThrow(canvasArg);
+        var _a = this.options, boxColor = _a.boxColor, lineWidth = _a.lineWidth;
+        // Position and Size change
+        var _b = this.box, x = _b.x + 25, y = _b.y + 25, width = _b.width - 50, height = 0.5 * _b.height - 50;
+        ctx.strokeStyle = boxColor;
+        ctx.lineWidth = lineWidth;
+        ctx.strokeRect(x, y, width, height);
+        var label = this.options.label;
+        if (label) {
+            new DrawTextField([label], { x: x - (lineWidth / 2), y: y }, this.options.drawLabelOptions).draw(canvasArg);
+        }
+    };
+    return DrawBox;
+}());
 
-  function drawDetections(canvasArg, detections) {
+  function drawDetections(canvasArg, detections, faceBox = true, eyesBox = true) {
       var detectionsArray = Array.isArray(detections) ? detections : [detections];
       detectionsArray.forEach(function (det) {
           var score = det instanceof FaceDetection
@@ -1518,8 +1519,10 @@
               ? det.box
               : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
           var label = score ? "" + round(score) : undefined;
-          // new DrawBox(box, { label: label }).draw(canvasArg);
-          new DrawEyeBox(box, { label: label }).draw(canvasArg);
+          if (faceBox)
+            new DrawBox(box, { label: label }).draw(canvasArg);
+          if (eyesBox)
+            new DrawEyeBox(box, { label: label }).draw(canvasArg);
       });
   }
 
