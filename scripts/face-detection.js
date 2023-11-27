@@ -1,3 +1,5 @@
+import { drawDetections } from "./face-processing.js"
+
 const video = document.getElementById('video')
 
 Promise.all([
@@ -22,6 +24,7 @@ video.addEventListener('play', () => {
         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
         const resizedDetections = faceapi.resizeResults(detections, displaySize)
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-        faceapi.draw.drawDetections(canvas, resizedDetections, true, true)
+        drawDetections(canvas, resizedDetections, false, true)
     }, 100)
+    console.log(faceapi)
 })
