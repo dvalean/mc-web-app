@@ -6451,6 +6451,7 @@
   exports.DetectSingleFaceLandmarksTask = DetectSingleFaceLandmarksTask;
   exports.DetectSingleFaceTask = DetectSingleFaceTask;
   exports.Dimensions = Dimensions;
+  exports.DrawBoxOptions = DrawBoxOptions;
   exports.FACE_EXPRESSION_LABELS = FACE_EXPRESSION_LABELS;
   exports.FaceDetection = FaceDetection;
   exports.FaceDetectionNet = FaceDetectionNet;
@@ -6553,6 +6554,7 @@
   exports.resizeResults = resizeResults;
   exports.resolveInput = resolveInput;
   exports.shuffleArray = shuffleArray;
+  exports.round = round;
   exports.sigmoid = sigmoid;
   exports.ssdMobilenetv1 = ssdMobilenetv1;
   exports.tf = tfCore_esm;
