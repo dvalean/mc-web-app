@@ -1,4 +1,4 @@
-// import { drawDetections } from "./face-processing.js"
+import { drawDetections } from "./face-processing.js"
 
 (() => {
     // The width and height of the captured photo. We will set the
@@ -40,10 +40,10 @@
       if (showViewLiveResultButton()) {
         return;
       }
-      video = document.getElementById("video");
-      canvas = document.getElementById("canvas");
-      photo = document.getElementById("photo");
-      startbutton = document.getElementById("start-button");
+      video = document.getElementById("photo-video");
+      canvas = document.getElementById("photo-canvas");
+      photo = document.getElementById("photo-img");
+      startbutton = document.getElementById("photo-button");
   
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: false })
@@ -127,32 +127,33 @@
     window.addEventListener("load", startup, false);
   })();
 
-// const video = document.getElementById('video')
+const video = document.getElementById('eye-video')
 
-// Promise.all([
-//     faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
-//     faceapi.nets.faceLandmark68TinyNet.loadFromUri('./models'),
-// ]).then(startup)
+Promise.all([
+    faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
+    faceapi.nets.faceLandmark68TinyNet.loadFromUri('./models'),
+]).then(startVideo)
 
-// function startVideo() {
-//     navigator.getUserMedia(
-//         { video: {} },
-//         stream => video.srcObject = stream,
-//         err => console.error(err)
-//     )
-// }
+function startVideo() {
+    navigator.getUserMedia(
+        { video: {} },
+        stream => video.srcObject = stream,
+        err => console.error(err)
+    )
+}
 
-// video.addEventListener('play', () => {
-//     const canvas = faceapi.createCanvasFromMedia(video)
-//     document.getElementsByTagName('div')[1].append(canvas)
-//     const displaySize = { width: video.width, height: video.height }
-//     faceapi.matchDimensions(canvas, displaySize)
-//     setInterval(async () => {
-//         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-//         const resizedDetections = faceapi.resizeResults(detections, displaySize)
-//         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-//         drawDetections(canvas, resizedDetections, false, true)
-//     }, 100)
-//     console.log(faceapi)
-// })
+video.addEventListener('play', () => {
+    const canvas = faceapi.createCanvasFromMedia(video)
+    document.getElementsByTagName('div')[2].append(canvas)
+    console.log(document.getElementsByTagName('div'))
+    const displaySize = { width: video.width, height: video.height }
+    faceapi.matchDimensions(canvas, displaySize)
+    setInterval(async () => {
+        const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+        const resizedDetections = faceapi.resizeResults(detections, displaySize)
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+        drawDetections(canvas, resizedDetections, false, true)
+    }, 100)
+    console.log(faceapi)
+})
 
