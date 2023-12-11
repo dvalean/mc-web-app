@@ -13,7 +13,15 @@
     </head>
 
 	<body>
-		<video id="video" width="720" height="560" autoplay muted></video>
-		<div id="canvas-placement"></div>
+		<div class="camera">
+			<video id="video" width="720" height="560" autoplay muted>Video stream unavailable.</video>
+			<!-- <div id="canvas-placement"></div> -->
+			<button id="start-button">Take Photo</button>
+		</div>
+		
+		<canvas id="canvas"> </canvas>
+		<div class="output">
+			<img id="photo" alt="The screen output will appear in this box."/>
+		</div>
 	</body>
 </html>
