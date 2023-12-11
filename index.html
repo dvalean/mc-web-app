@@ -13,7 +13,22 @@
     </head>
 
 	<body>
-		<video id="video" width="720" height="560" autoplay muted></video>
-		<div id="canvas-placement"></div>
+		<!-- Construct eye rectangle -->
+		<div id="eye-rectangle">
+			<video id="eye-video" width="720" height="560" autoplay muted>Video stream unavailable.</video>
+			<div id="eye-canvas"></div>
+		</div>
+
+		<!-- Take photo -->
+		<div id="take-photo">
+			<div class="photo-camera">
+				<video id="photo-video" autoplay muted>Video stream unavailable.</video>
+				<button id="photo-button">Take Photo</button>
+			</div>		
+			<canvas id="photo-canvas"> </canvas>
+			<div class="photo-output">
+				<img id="photo-img" alt="The screen output will appear in this box."/>
+			</div>
+		</div>
 	</body>
 </html>
