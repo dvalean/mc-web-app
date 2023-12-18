@@ -1,5 +1,3 @@
-// import { FaceDetection, isWithFaceDetection } from "./face-api.js";
-
 var DrawBox = /** @class */ (function () {
     class DrawBox {
         constructor(box, options) {
@@ -44,10 +42,11 @@ export function drawDetections(canvasArg, detections, faceBox = true, eyesBox = 
     detectionsArray.forEach(function (det) {
         var score = det instanceof faceapi.FaceDetection
             ? det.score
-            : (isWithFaceDetection(det) ? det.detection.score : undefined);
+            : (faceapi.isWithFaceDetection(det) ? det.detection.score : undefined);
+        console.log(score)
         var box = det instanceof faceapi.FaceDetection
             ? det.box
-            : (isWithFaceDetection(det) ? det.detection.box : new Box(det));
+            : (faceapi.isWithFaceDetection(det) ? det.detection.box : new faceapi.Box(det));
         var label = score ? "" + faceapi.round(score) : undefined;
         if (faceBox)
           new DrawBox(box, { label: label }).draw(canvasArg);

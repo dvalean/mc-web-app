@@ -20,6 +20,7 @@ import { drawDetections } from "./face-processing.js"
     let canvas = null;
     let photo = null;
     let startbutton = null;
+    let canvas_face = null
   
     function showViewLiveResultButton() {
       if (window.self !== window.top) {
@@ -97,6 +98,8 @@ import { drawDetections } from "./face-processing.js"
       const context = canvas.getContext("2d");
       context.fillStyle = "#AAA";
       context.fillRect(0, 0, canvas.width, canvas.height);
+
+      canvas_face.getContext('2d').clearRect(0, 0, canvas_face.width, canvas_face.height);
   
       const data = canvas.toDataURL("image/png");
       photo.setAttribute("src", data);
@@ -117,43 +120,102 @@ import { drawDetections } from "./face-processing.js"
   
         const data = canvas.toDataURL("image/png");
         photo.setAttribute("src", data);
+        
+        // const photo_obj = document.getElementById("photo-img")
+        // var img = loadImage(data);
+        const loadImage = (url) => new Promise((resolve, reject) => {
+            const img = new Image();
+            img.addEventListener('load', () => resolve(img));
+            img.addEventListener('error', (err) => reject(err));
+            img.src = url;
+          });
+          
+        loadImage(data)
+            .then(img => detecteyes(img))
+            .catch(err => console.error(err));
+        
       } else {
         clearphoto();
       }
+      
+    function detecteyes(media){
+        canvas_face = faceapi.createCanvasFromMedia(media)
+        document.getElementById('eye-canvas').append(canvas_face)
+        console.log(document.getElementById('eye-canvas'))
+        const displaySize = { width: media.width, height: media.height }
+        faceapi.matchDimensions(canvas_face, displaySize)
+        const myPromise = exPromise(media, displaySize, canvas_face)
+        myPromise
+            .then(() => {console.log("success")})
+            .catch((error) => {
+                console.error(error.message);
+            });
+      }
     }
-  
+
+    async function exPromise(media, displaySize, canvas_face) {
+        let isSettled = false;
+    
+        return new Promise(async (resolve, reject) => {
+            setTimeout(async () => {
+                if (!isSettled) {
+                    isSettled = true;
+    
+                    try {
+                        const detections = await faceapi.detectAllFaces(media, new faceapi.TinyFaceDetectorOptions());
+                        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+    
+                        console.log(resizedDetections);
+                        drawDetections(canvas_face, resizedDetections, false, true);
+    
+                        if (detections) {
+                            resolve(`Success! Value received: ${detections}`);
+                        } else {
+                            reject(new Error('Error: No value provided'));
+                        }
+                    } catch (error) {
+                        reject(error);
+                    }
+                }
+            }, 1000);
+        });
+    }
+
+    Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
+        faceapi.nets.faceLandmark68TinyNet.loadFromUri('./models'),
+    ]).then(startup)
+
     // Set up our event listener to run the startup process
     // once loading is complete.
-    window.addEventListener("load", startup, false);
-  })();
+    // window.addEventListener("load", startup, false);
 
-const video = document.getElementById('eye-video')
+// const video = document.getElementById('eye-video')
 
-Promise.all([
-    faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
-    faceapi.nets.faceLandmark68TinyNet.loadFromUri('./models'),
-]).then(startVideo)
 
-function startVideo() {
-    navigator.getUserMedia(
-        { video: {} },
-        stream => video.srcObject = stream,
-        err => console.error(err)
-    )
-}
 
-video.addEventListener('play', () => {
-    const canvas = faceapi.createCanvasFromMedia(video)
-    document.getElementsByTagName('div')[2].append(canvas)
-    console.log(document.getElementsByTagName('div'))
-    const displaySize = { width: video.width, height: video.height }
-    faceapi.matchDimensions(canvas, displaySize)
-    setInterval(async () => {
-        const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-        const resizedDetections = faceapi.resizeResults(detections, displaySize)
-        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-        drawDetections(canvas, resizedDetections, false, true)
-    }, 100)
-    console.log(faceapi)
-})
+// function startVideo() {
+//     navigator.getUserMedia(
+//         { video: {} },
+//         stream => video.srcObject = stream,
+//         err => console.error(err)
+//     )
+// }
+
+// video.addEventListener('play', () => {
+//     const canvas = faceapi.createCanvasFromMedia(video)
+//     document.getElementsByTagName('div')[2].append(canvas)
+//     console.log(document.getElementsByTagName('div'))
+//     const displaySize = { width: video.width, height: video.height }
+//     faceapi.matchDimensions(canvas, displaySize)
+//     setInterval(async () => {
+//         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+//         const resizedDetections = faceapi.resizeResults(detections, displaySize)
+//         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+//         drawDetections(canvas, resizedDetections, false, true)
+//     }, 100)
+//     console.log(faceapi)
+// })
+  
+})();
 
