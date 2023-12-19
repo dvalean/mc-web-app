@@ -30,5 +30,64 @@
 				<img id="photo-img" alt="The screen output will appear in this box."/>
 			</div>
 		</div>
+
+		<input type="file" id="upload" accept="image/*">
+    <div id="image-container">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+        document.getElementById('upload').addEventListener('change', handleImage);
+
+        function handleImage(event) {
+            const input = event.target;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const image = new Image();
+                    image.src = e.target.result;
+
+                    image.onload = function () {
+                        createMask(image);
+                    };
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function createMask(image) {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+
+            canvas.width = image.width;
+            canvas.height = image.height;
+
+            // Draw the image on the canvas
+            context.drawImage(image, 0, 0);
+
+            // Get the image data
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            // Create a binary mask based on pixel intensity
+            for (let i = 0; i < data.length; i += 4) {
+                const intensity = (data[i] + data[i + 1] + data[i + 2]) / 3; // Grayscale intensity
+
+                // Set the pixel to white if it's bright, otherwise set it to black
+                const threshold = 100; // Adjust this threshold as needed
+                const maskValue = intensity > threshold ? 255 : 0;
+
+                data[i] = maskValue;      // Red channel
+                data[i + 1] = maskValue;  // Green channel
+                data[i + 2] = maskValue;  // Blue channel
+                // Alpha channel (transparency) remains unchanged
+            }
+
+            // Put the modified image data back onto the canvas
+            context.putImageData(imageData, 0, 0);
+        }
+    </script>
 	</body>
 </html>
