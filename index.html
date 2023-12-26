@@ -1,34 +1,15 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<head>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>
-			Web Application
+			Interactive Globe Project
 		</title>
 		<link id="css" rel="stylesheet" type="text/css" href="style/main.css">
-		<script type="module" src="scripts/face-api.js"></script>
-		<script type="module" src="scripts/face-detection.js"></script>
-		<script type="module" src="scripts/face-processing.js"></script>
-    </head>
-
+		<script src="scripts/webgazer.js"></script>
+		<script src="scripts/controls.js"></script>
+	</head>
 	<body>
-		<!-- Construct eye rectangle -->
-		<div id="eye-rectangle">
-			<video id="eye-video" width="720" height="560" autoplay muted>Video stream unavailable.</video>
-			<div id="eye-canvas"></div>
-		</div>
 
-		<!-- Take photo -->
-		<div id="take-photo">
-			<div class="photo-camera">
-				<video id="photo-video" autoplay muted>Video stream unavailable.</video>
-				<button id="photo-button">Take Photo</button>
-			</div>		
-			<canvas id="photo-canvas"> </canvas>
-			<div class="photo-output">
-				<img id="photo-img" alt="The screen output will appear in this box."/>
-			</div>
-		</div>
 	</body>
 </html>
