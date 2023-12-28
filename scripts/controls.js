@@ -1,18 +1,18 @@
-window.saveDataAcrossSessions = true
-
 const DELAY = 1000
 
 const LEFT_AREA = window.innerWidth / 4
-const RIGHT_AREA = window.innerHeight - window.innerWidth / 4
+const RIGHT_AREA = window.innerWidth - window.innerWidth / 4
 
 let startTime = Number.POSITIVE_INFINITY
 let direction = null
 
 webgazer.setGazeListener((data, timestamp) => {
+    webgazer.showFaceOverlay(false)
 
     const videoFeed = document.getElementById('webgazerVideoFeed');
     if (videoFeed) {
         // Video feed custom styles
+        // videoFeed.style.opacity = 0.0;
     }
     
     webgazer.params.showVideo = false
