@@ -1,17 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>
-			Interactive Globe Project
-		</title>
-		<link id="css" rel="stylesheet" type="text/css" href="style/main.css">
-	</head>
-	<body>
-        <canvas id="globe"></canvas>
-		<script src="scripts/webgazer.js"></script>
-		<script src="scripts/three.js"></script>
-		<script src="scripts/controls.js"></script>
-		<script src="scripts/globe.js"></script>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/main.css">
+    <title>
+        Stargazing
+    </title>
+</head>
+<body>
+    <section id="main-section">
+        <div class="top-element">
+            <button onclick="transitionToSection2()">UP</button>
+        </div>
+
+        <div class="center-element">
+            <div class="info-box">
+                <h1>Stargazing Web Application</h1>
+                <h3>Information Box</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum luctus nulla. Quisque venenatis odio id metus maximus tincidunt. Praesent dictum pharetra tempus.</p>
+            </div>
+        </div>
+
+        <div class="bottom-element">
+            <button>SETTINGS</button>
+        </div>
+    </section>
+
+    <section id="stargazing-section">
+        <div class="top-element">
+            <!-- <button onclick="transitionToSection1()">Go to Section 1</button> -->
+        </div>
+
+        <div class="center-element">
+            <img id="photo" src="images/aquarius.png" alt="constellation">
+            <button id="prev-button" onclick="prevPhoto();">LEFT</button>
+            <button id="next-button" onclick="nextPhoto();">RIGHT</button>
+        </div>
+
+        <div class="bottom-element">
+            <button onclick="transitionToSection1()">DOWN</button>
+        </div>
+    </section>
+
+    <script src="script/backgrounds.js"></script>
+    <script defer src="script/constellations.js"></script>
+</body>
 </html>
