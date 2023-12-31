@@ -5,6 +5,7 @@
 
 body {
     font-family: Arial, sans-serif;
+    font-size: 16px;
 }
 
 section {
@@ -30,7 +31,7 @@ p {
 
 button {
     background-color: rgba(255, 255, 255, 0.25);
-    font-size: 16px;
+    font-size: 1.2em;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -69,14 +70,14 @@ button:hover {
 .info-box {
     padding: 10px;
 
-    width: 1000px;
-    background-color: rgba(255, 255, 255, 0.75); /* Set the background color with opacity */
+    max-width: 65vw;
+    background-color: rgba(255, 255, 255, 0.75);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 #photo {
-    max-width: 100%;
+    max-width: 65vw;
     height: auto;
     display: block;
     margin: 0 auto;
@@ -85,7 +86,7 @@ button:hover {
 
 #prev-button, #next-button {
     margin: 0;
-    min-width: 25vw;
+    min-width: 25vh;
     padding: 20px 20px;
     position: absolute;
     top: 50%;
@@ -94,17 +95,21 @@ button:hover {
 }
 
 #prev-button {
-    transform: rotate(90deg);
     left: 0;
-    margin-left: -11vw;
+    transform-origin: 0% 100%;
+    transform: rotate(90deg);
+    /* margin-left: -11vw; */
+    top: 25%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
 #next-button {
+    left: 100%;
+    transform-origin: 0% 100%;
     transform: rotate(-90deg);
-    right: 0;
-    margin-right: -11vw;
+    /* margin-right: -11vw; */
+    top: 50%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -122,4 +127,25 @@ button:hover {
 #bot-button {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+}
+
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 12px;
+    }
+    
+    #prev-button, #next-button, #top-button, #bot-button {
+        padding: 15px 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 8px;
+    }
+    
+    #prev-button, #next-button, #top-button, #bot-button {
+        padding: 10px 10px;
+    }
 }
