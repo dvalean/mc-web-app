@@ -29,8 +29,17 @@ p {
 }
 
 button {
+    background-color: rgba(255, 255, 255, 0.25);
     font-size: 16px;
+    color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    outline: none;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.75);
 }
 
 #main-section {
@@ -75,15 +84,42 @@ button {
 }
 
 #prev-button, #next-button {
+    margin: 0;
+    min-width: 25vw;
+    padding: 20px 20px;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform-origin: center center;
+    white-space: nowrap;
 }
 
 #prev-button {
+    transform: rotate(90deg);
     left: 0;
+    margin-left: -11vw;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 #next-button {
+    transform: rotate(-90deg);
     right: 0;
+    margin-right: -11vw;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#top-button, #bot-button {
+    min-width: 25vw;
+    padding: 20px 20px;
+}
+
+#top-button {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#bot-button {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
